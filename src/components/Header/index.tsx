@@ -5,12 +5,23 @@ import { MdShoppingBasket } from 'react-icons/md';
 import logo from '../../assets/images/logo.svg';
 import { Container, Cart } from './styles';
 import { useCart } from '../../hooks/useCart';
+import { Product } from '../../types';
+
+
+
 
 const Header = (): JSX.Element => {
   const { cart } = useCart();
-  
-  const cartSize = cart.length// TODO;
 
+  const cartSize =  cart.reduce((acc, current) => {
+    const x = acc.find((item: Product) => item.id === current.id);
+    if(!x){
+      return [...acc, ...[current]];
+    } else {
+      return acc
+    }
+  }, [] as Product[] ).length;
+  
   return (
     <Container>
       <Link to="/">
